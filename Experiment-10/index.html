@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Validated Input Form</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f0f2f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .form-container {
+      background: #fff;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      width: 320px;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+      position: relative;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 0.6rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+
+    button {
+      width: 100%;
+      padding: 0.7rem;
+      background: #4caf50;
+      border: none;
+      color: white;
+      font-size: 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background: #45a049;
+    }
+
+    .error-message {
+      color: red;
+      font-size: 0.8rem;
+      margin-top: 4px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+<div class="form-container">
+  <h2>Register</h2>
+  <form id="registrationForm">
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input type="text" id="name" placeholder="Enter your name">
+      <small class="error-message"></small>
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="email" id="email" placeholder="Enter your email">
+      <small class="error-message"></small>
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input type="password" id="password" placeholder="Enter password">
+      <small class="error-message"></small>
+    </div>
+
+    <button type="submit">Submit</button>
+  </form>
+</div>
+
+<script>
+  const form = document.getElementById('registrationForm');
+  const nameInput = document.getElementById('name');
+  const emailInput = document.getElementById('email');
+  const passwordInput = document.getElementById('password');
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    clearErrors();
+    
+    let valid = true;
+
+    // Validate Name
+    if (!/^[a-zA-Z\s]+$/.test(nameInput.value.trim())) {
+      showError(nameInput, "Name should contain only letters and spaces");
+      valid = false;
+    }
+
+    // Validate Email
+    if (!/^\S+@\S+\.\S+$/.test(emailInput.value.trim())) {
+      showError(emailInput, "Enter a valid email address");
+      valid = false;
+    }
+
+    // Validate Password
+    if (passwordInput.value.length < 6) {
+      showError(passwordInput, "Password must be at least 6 characters long");
+      valid = false;
+    }
+
+    if (valid) {
+      alert("Form submitted successfully!");
+      form.reset();
+    }
+  });
+
+  function showError(input, message) {
+    const errorElement = input.nextElementSibling;
+    errorElement.innerText = message;
+    errorElement.style.display = 'block';
+  }
+
+  function clearErrors() {
+    const errors = document.querySelectorAll('.error-message');
+    errors.forEach(error => {
+      error.innerText = '';
+      error.style.display = 'none';
+    });
+  }
+</script>
+
+</body>
+</html>
